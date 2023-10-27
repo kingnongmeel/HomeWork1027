@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+<div class="temp">
+    <h1>OHGIRAFFERS RESTAURANT에 오신 것을 환영합니다.</h1>
+    <button onclick="location.href='/menu/7'">7번 메뉴 보기</button>
+    <button onclick="location.href='/menu/list'">전체 메뉴 보기</button>
+
+    <button onclick="location.href='/menu/querymethod'">쿼리 메소드 테스트하기</button>
+    <button onclick="location.href='/menu/regist'">메뉴 입력하기</button>
+    <button onclick="location.href='/menu/modify'">메뉴 이름 수정하기</button>
+    <button onclick="location.href='/menu/delete'">메뉴 삭제하기</button>
+
+    <br>
+
+    <div class="main">
+        <div class="head">
+            <h1>Query Method or JPQL 을 이용한 조회 기능</h1>
+        </div>
+        <div class="body">
+            <div class="body_body">
+                <label>JPQL 이용/이름으로 조회 </label>
+                <input type="text" name="menuName" id="input1"/>
+                <input type="button" id="button1">
+            </div>
+
+            <div class="body_body">
+                <label>Query Method 이용 / 이름으로 조회 </label>
+                <input type="number" name="menuCode" id="input2"/>
+                <input type="button" id="button2">
+            </div>
+
+            <div class="body_body">
+                <label>Query Method 이용 / 전체 조회 </label>
+                <input type="button" id="button3">
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h3>--------------조회 결과--------------</h3>
+        <div id="view"></div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const $input1 = document.getElementById("input1")
+        const $input2 = document.getElementById("input2")
+
+        const $button1 = document.getElementById("button1")
+        const $button2 = document.getElementById("button2")
+        const $button3 = document.getElementById("button3")
+
+        const $view = document.getElementById("view")
+
+        console.log("이까지옴 1")
+
+
+        // --------------- Name 검색 jpql 사용---------------
+        $button1.addEventListener('click', () => {
+            const input1 = $input1.value;
+            console.log("이까지 옴 : " + input1)
+
+            fetch("/menu/input1?input1=" + input1, {
+                method: "POST",
+            })
+                .then(response => response.json())
+
+                .then(data => {
+                    console.log("data 확인 : ", data);
+                    console.log("data 확인 : " + data);
+
+                    $view.innerHTML = "";
+
+                    for (let key in data) {
+                        const newDiv = document.createElement('div')
+                        newDiv.textContent = data[key]
+
+                        $view.appendChild(newDiv);
+                    }
+                })
+                .catch(error => console.error("Error:", error))
+        })
+
+
+        // --------------- 전체조회 jpql 사용---------------
+        $button3.addEventListener('click', () => {
+            console.log("이까지 옴 : List ")
+
+            fetch("/menu/inputman")
+                .then(response => response.json())
+
+                .then(data => {
+                    console.log("data 확인 : ", data);
+                    console.log("data 확인 : " + data);
+
+                    $view.innerHTML = "";
+
+
+
+                    data.forEach(dto => {
+
+                        const newDiv2 = document.createElement('div')
+                        newDiv2.className="newDiv2"
+
+                        for (let key in dto) {
+                            const newDiv = document.createElement('div')
+                            newDiv.textContent = dto[key]
+
+                            newDiv2.appendChild(newDiv)
+                        }
+
+                        $view.appendChild(newDiv2);
+                    })
+                })
+                .catch(error => console.error("Error:", error))
+        })
+
+
+
+
+// --------------- 전체조회 쿼리메소드 사용---------------
+
+        $button2.addEventListener('click', () => {
+            console.log("이까지 옴 : List ")
+
+            fetch("/menu/inputman2")
+                .then(response => response.json())
+
+                .then(data => {
+                    console.log("data 확인 : ", data);
+                    console.log("data 확인 : " + data);
+
+                    $view.innerHTML = "";
+
+
+
+                    data.forEach(dto => {
+
+                        const newDiv2 = document.createElement('div')
+                        newDiv2.className="newDiv2"
+
+                        for (let key in dto) {
+                            const newDiv = document.createElement('div')
+                            newDiv.textContent = dto[key]
+
+                            newDiv2.appendChild(newDiv)
+                        }
+
+                        $view.appendChild(newDiv2);
+                    })
+                })
+                .catch(error => console.error("Error:", error))
+        })
+
+
+    })
+
+
+
+
+</script>
+
+
+</body>
+</html>

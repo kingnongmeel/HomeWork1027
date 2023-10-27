@@ -1,0 +1,19 @@
+# DB ?? ??
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    username: C##OHGIRAFFERS
+    password: OHGIRAFFERS
+
+# JPA ??
+  jpa:
+#    create ?? ??
+    generate-ddl: false
+#    log? sql ????
+    show-sql: true
+    database: oracle
+    properties:
+      hibernate:
+#        show log? ??? ?? ??
+        format_sql: true
